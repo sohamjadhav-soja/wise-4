@@ -1,0 +1,1145 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+
+<title>Wise — Career Discovery</title>
+
+
+<style>
+
+* {
+    box-sizing: border-box;
+}
+
+
+body {
+
+    margin: 0;
+
+    min-height: 100vh;
+
+    font-family:
+        Inter,
+        system-ui,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+
+    background:
+        radial-gradient(
+            circle at 20% 10%,
+            rgba(120, 90, 255, .18),
+            transparent 30%
+        ),
+
+        radial-gradient(
+            circle at 85% 80%,
+            rgba(0, 210, 190, .13),
+            transparent 28%
+        ),
+
+        #09090d;
+
+    color: #f7f7fb;
+}
+
+
+button,
+input {
+
+    font: inherit;
+}
+
+
+.app {
+
+    width:
+        min(
+            920px,
+            calc(100% - 32px)
+        );
+
+    min-height: 100vh;
+
+    margin: auto;
+
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: center;
+
+    padding: 40px 0;
+}
+
+
+.brand {
+
+    font-weight: 800;
+
+    font-size: 20px;
+
+    letter-spacing: -.03em;
+
+    margin-bottom: 24px;
+}
+
+
+.card {
+
+    background:
+        rgba(20, 20, 28, .78);
+
+    border:
+        1px solid rgba(255,255,255,.09);
+
+    border-radius: 28px;
+
+    box-shadow:
+        0 24px 80px rgba(0,0,0,.35);
+
+    backdrop-filter: blur(20px);
+
+    overflow: hidden;
+}
+
+
+/* LANDING */
+
+.landing {
+
+    padding:
+        clamp(
+            34px,
+            7vw,
+            72px
+        );
+
+    text-align: center;
+}
+
+
+.eyebrow {
+
+    display: inline-block;
+
+    padding: 7px 12px;
+
+    border-radius: 999px;
+
+    background:
+        rgba(255,255,255,.07);
+
+    color: #bdb8ff;
+
+    font-size: 13px;
+
+    font-weight: 700;
+
+    margin-bottom: 18px;
+}
+
+
+h1 {
+
+    font-size:
+        clamp(
+            42px,
+            8vw,
+            76px
+        );
+
+    line-height: .98;
+
+    letter-spacing: -.06em;
+
+    margin:
+        0 0 18px;
+}
+
+
+.landing p {
+
+    max-width: 620px;
+
+    margin:
+        0 auto 30px;
+
+    color: #aaaab8;
+
+    font-size: 17px;
+
+    line-height: 1.6;
+}
+
+
+button {
+
+    border: 0;
+
+    border-radius: 14px;
+
+    padding:
+        14px 20px;
+
+    cursor: pointer;
+
+    font-weight: 800;
+
+    background: #f4f3ff;
+
+    color: #101016;
+}
+
+
+button:disabled {
+
+    opacity: .5;
+
+    cursor: not-allowed;
+}
+
+
+/* CHAT */
+
+.chatScreen,
+.resultScreen {
+
+    display: none;
+}
+
+
+.visible {
+
+    display: block;
+}
+
+
+.chatHeader {
+
+    padding:
+        22px 26px;
+
+    border-bottom:
+        1px solid rgba(255,255,255,.08);
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+}
+
+
+.chatTitle {
+
+    font-weight: 800;
+}
+
+
+.status {
+
+    color: #8f8f9f;
+
+    font-size: 13px;
+}
+
+
+.messages {
+
+    min-height: 430px;
+
+    max-height: 58vh;
+
+    overflow-y: auto;
+
+    padding: 28px;
+}
+
+
+.bubble {
+
+    width: fit-content;
+
+    max-width: 85%;
+
+    padding:
+        14px 17px;
+
+    border-radius: 18px;
+
+    margin-bottom: 12px;
+
+    line-height: 1.55;
+
+    white-space: pre-wrap;
+}
+
+
+.bubble.bot {
+
+    background:
+        rgba(255,255,255,.07);
+
+    border:
+        1px solid rgba(255,255,255,.06);
+}
+
+
+.bubble.user {
+
+    margin-left: auto;
+
+    background: #f4f3ff;
+
+    color: #101016;
+}
+
+
+.typing {
+
+    color: #8f8f9f;
+
+    font-size: 13px;
+
+    padding:
+        6px 2px 14px;
+}
+
+
+/* INPUT */
+
+.composer {
+
+    display: flex;
+
+    gap: 10px;
+
+    padding: 18px;
+
+    border-top:
+        1px solid rgba(255,255,255,.08);
+}
+
+
+#userInput {
+
+    flex: 1;
+
+    min-width: 0;
+
+    border:
+        1px solid rgba(255,255,255,.1);
+
+    outline: none;
+
+    background:
+        rgba(255,255,255,.05);
+
+    color: white;
+
+    border-radius: 14px;
+
+    padding:
+        14px 16px;
+}
+
+
+#userInput:focus {
+
+    border-color:
+        rgba(255,255,255,.25);
+}
+
+
+/* PROGRESS */
+
+.progressWrap {
+
+    display: none;
+
+    padding:
+        0 26px 18px;
+}
+
+
+.progressWrap.visible {
+
+    display: block;
+}
+
+
+.progressTop {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    color: #858593;
+
+    font-size: 12px;
+
+    margin-bottom: 7px;
+}
+
+
+.progressTrack {
+
+    height: 5px;
+
+    background:
+        rgba(255,255,255,.07);
+
+    border-radius: 99px;
+
+    overflow: hidden;
+}
+
+
+#progressFill {
+
+    width: 0%;
+
+    height: 100%;
+
+    background: #f4f3ff;
+
+    border-radius: inherit;
+
+    transition:
+        width .35s ease;
+}
+
+
+/* RESULT */
+
+.resultScreen {
+
+    padding: 34px;
+}
+
+
+.resultScreen h2 {
+
+    margin-top: 0;
+}
+
+
+#resultText {
+
+    color: #d7d7df;
+
+    line-height: 1.7;
+
+    white-space: pre-wrap;
+}
+
+
+#resultText strong {
+
+    color: #ffffff;
+}
+
+
+/* MOBILE */
+
+@media (max-width: 600px) {
+
+    .app {
+
+        width:
+            calc(100% - 18px);
+
+        padding: 18px 0;
+    }
+
+    .card {
+
+        border-radius: 20px;
+    }
+
+    .messages {
+
+        min-height: 55vh;
+
+        padding: 20px;
+    }
+
+    .composer {
+
+        padding: 12px;
+    }
+
+    .bubble {
+
+        max-width: 92%;
+    }
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<main class="app">
+
+
+<div class="brand">
+    wise.
+</div>
+
+
+<section class="card">
+
+
+<!-- LANDING -->
+
+<div id="landing"
+     class="landing">
+
+
+    <div class="eyebrow">
+        AI career discovery
+    </div>
+
+
+    <h1>
+        Find the work<br>
+        that fits you.
+    </h1>
+
+
+    <p>
+        Wise looks beyond
+        “what do you like?”
+        and learns from the way
+        you think, act, solve problems,
+        and spend your time.
+    </p>
+
+
+    <button id="startBtn">
+        Start discovering →
+    </button>
+
+
+</div>
+
+
+
+<!-- CHAT -->
+
+<div id="chatScreen"
+     class="chatScreen">
+
+
+    <div class="chatHeader">
+
+        <div class="chatTitle">
+            wise.
+        </div>
+
+        <div class="status">
+            Career discovery
+        </div>
+
+    </div>
+
+
+
+    <div id="messages"
+         class="messages">
+    </div>
+
+
+
+    <div id="progressWrap"
+         class="progressWrap">
+
+
+        <div class="progressTop">
+
+            <span>
+                Discovery progress
+            </span>
+
+            <span id="progressPct">
+                0%
+            </span>
+
+        </div>
+
+
+        <div class="progressTrack">
+
+            <div id="progressFill">
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+
+    <div class="composer">
+
+
+        <input
+            id="userInput"
+            type="text"
+            autocomplete="off"
+            placeholder="Type your answer..."
+        >
+
+
+        <button id="sendBtn">
+            Send
+        </button>
+
+
+    </div>
+
+
+</div>
+
+
+
+<!-- RESULT -->
+
+<div id="resultScreen"
+     class="resultScreen">
+
+
+    <h2>
+        Your Wise result
+    </h2>
+
+
+    <div id="resultText">
+    </div>
+
+
+    <br>
+
+
+    <button id="restartBtn">
+        Start again
+    </button>
+
+
+</div>
+
+
+</section>
+
+
+</main>
+
+
+
+<script>
+
+
+/*
+Because FastAPI serves index.html,
+we don't need localhost:8000 here.
+
+The browser automatically uses:
+
+http://127.0.0.1:8000
+*/
+
+const API_BASE = "";
+
+
+
+const landing =
+    document.getElementById("landing");
+
+
+const chatScreen =
+    document.getElementById("chatScreen");
+
+
+const resultScreen =
+    document.getElementById("resultScreen");
+
+
+const progressWrap =
+    document.getElementById("progressWrap");
+
+
+const messagesEl =
+    document.getElementById("messages");
+
+
+const inputEl =
+    document.getElementById("userInput");
+
+
+const sendBtn =
+    document.getElementById("sendBtn");
+
+
+const progressFill =
+    document.getElementById("progressFill");
+
+
+const progressPct =
+    document.getElementById("progressPct");
+
+
+const resultText =
+    document.getElementById("resultText");
+
+
+
+let sessionId = null;
+
+let expectedTurns = 8;
+
+let finished = false;
+
+
+
+function renderText(t) {
+    const esc = t
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;");
+    return esc
+        .replace(/^[ \t]*[-*][ \t]+/gm, "• ")
+        .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
+        .replace(/\*+/g, "");
+}
+
+function addBubble(text, who) {
+
+    const div = document.createElement("div");
+
+    div.className = "bubble " + who;
+
+    div.innerHTML = renderText(text);
+
+    messagesEl.appendChild(div);
+
+    messagesEl.scrollTop = messagesEl.scrollHeight;
+
+    return div;
+
+}
+
+
+function showTyping() {
+
+
+    hideTyping();
+
+
+    const div =
+        document.createElement("div");
+
+
+    div.className =
+        "typing";
+
+
+    div.id =
+        "typingIndicator";
+
+
+    div.textContent =
+        "Wise is thinking...";
+
+
+    messagesEl.appendChild(div);
+
+
+    messagesEl.scrollTop =
+        messagesEl.scrollHeight;
+
+}
+
+
+
+function hideTyping() {
+
+
+    const el =
+        document.getElementById(
+            "typingIndicator"
+        );
+
+
+    if (el) {
+
+        el.remove();
+
+    }
+
+}
+
+
+
+function updateProgress(
+    turnCount,
+    expected,
+    done
+) {
+
+
+    if (expected) {
+
+        expectedTurns =
+            expected;
+
+    }
+
+
+    const pct =
+        done
+            ? 100
+            : Math.min(
+                95,
+                Math.round(
+                    (turnCount /
+                     expectedTurns) * 100
+                )
+            );
+
+
+    progressFill.style.width =
+        pct + "%";
+
+
+    progressPct.textContent =
+        pct + "%";
+
+}
+
+
+
+function showResult(text) {
+
+
+    finished = true;
+
+
+    chatScreen.classList.remove(
+        "visible"
+    );
+
+
+    progressWrap.classList.remove(
+        "visible"
+    );
+
+
+        resultText.innerHTML =
+        renderText(text);
+
+
+    resultScreen.classList.add(
+        "visible"
+    );
+
+}
+
+
+
+async function readResponse(res) {
+
+
+    const data =
+        await res.json()
+            .catch(() => ({}));
+
+
+    if (!res.ok) {
+
+        throw new Error(
+            data.detail ||
+            data.reply ||
+            `Server error (${res.status})`
+        );
+
+    }
+
+
+    return data;
+
+}
+
+
+
+async function startSession() {
+
+
+    landing.style.display =
+        "none";
+
+
+    chatScreen.classList.add(
+        "visible"
+    );
+
+
+    progressWrap.classList.add(
+        "visible"
+    );
+
+
+    messagesEl.innerHTML =
+        "";
+
+
+    showTyping();
+
+
+    try {
+
+
+        const res =
+            await fetch(
+                API_BASE + "/start",
+                {
+                    method: "POST"
+                }
+            );
+
+
+        const data =
+            await readResponse(res);
+
+
+        hideTyping();
+
+
+        sessionId =
+            data.session_id;
+
+
+        addBubble(
+            data.reply,
+            "bot"
+        );
+
+
+        updateProgress(
+            data.turn_count,
+            data.expected_turns,
+            data.done
+        );
+
+
+        inputEl.focus();
+
+
+    } catch (err) {
+
+
+        hideTyping();
+
+
+        addBubble(
+            "Couldn't start Wise: " +
+            err.message,
+            "bot"
+        );
+
+    }
+
+}
+
+
+
+async function sendMessage() {
+
+
+    const text =
+        inputEl.value.trim();
+
+
+    if (
+        !text ||
+        !sessionId ||
+        finished ||
+        sendBtn.disabled
+    ) {
+
+        return;
+
+    }
+
+
+    addBubble(
+        text,
+        "user"
+    );
+
+
+    inputEl.value =
+        "";
+
+
+    sendBtn.disabled =
+        true;
+
+
+    inputEl.disabled =
+        true;
+
+
+    showTyping();
+
+
+    try {
+
+
+        const res =
+            await fetch(
+                API_BASE + "/chat",
+                {
+
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body: JSON.stringify({
+
+                        session_id:
+                            sessionId,
+
+                        message:
+                            text
+
+                    })
+
+                }
+            );
+
+
+        const data =
+            await readResponse(res);
+
+
+        hideTyping();
+
+
+        addBubble(
+            data.reply,
+            "bot"
+        );
+
+
+        updateProgress(
+            data.turn_count,
+            data.expected_turns,
+            data.done
+        );
+
+
+        if (data.done) {
+
+
+            setTimeout(
+                () => showResult(
+                    data.reply
+                ),
+                700
+            );
+
+        }
+
+
+    } catch (err) {
+
+
+        hideTyping();
+
+
+        addBubble(
+            "Something went wrong: " +
+            err.message,
+            "bot"
+        );
+
+
+    } finally {
+
+
+        sendBtn.disabled =
+            false;
+
+
+        inputEl.disabled =
+            false;
+
+
+        inputEl.focus();
+
+    }
+
+}
+
+
+
+document
+    .getElementById("startBtn")
+    .addEventListener(
+        "click",
+        startSession
+    );
+
+sendBtn.addEventListener(
+    "click",
+    sendMessage
+);
+
+
+
+inputEl.addEventListener(
+    "keydown",
+    (e) => {
+
+        if (e.key === "Enter") {
+
+            e.preventDefault();
+
+            sendMessage();
+
+        }
+
+    }
+);
+
+
+
+document
+    .getElementById("restartBtn")
+    .addEventListener(
+        "click",
+        () => window.location.reload()
+    );
+
+
+</script>
+
+
+</body>
+
+</html> 
